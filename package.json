@@ -1,17 +1,17 @@
 {
-  "name": "node-wp-i18n",
-  "version": "1.1.1",
-  "description": "Internationalize WordPress themes and plugins.",
+  "name": "wp-vue-i18n",
+  "version": "1.0.0",
+  "description": "Internationalize WordPress themes and plugins built with Vue.js",
   "license": "MIT",
-  "homepage": "https://github.com/cedaro/node-wp-i18n",
-  "repository": "cedaro/node-wp-i18n",
+  "homepage": "https://github.com/ediamin/wp-vue-i18n",
+  "repository": "ediamin/wp-vue-i18n",
   "author": {
-    "name": "Brady Vercher",
-    "email": "brady@blazersix.com",
-    "url": "http://www.cedaro.com/"
+    "name": "Edi Amin",
+    "email": "to.ediamin@gmail.com",
+    "url": "https://github.com/ediamin"
   },
   "bin": {
-    "wpi18n": "./bin/wpi18n"
+    "wpvuei18n": "./bin/wpvuei18n"
   },
   "main": "index.js",
   "scripts": {

@@ -5,7 +5,7 @@
 var fs = require('fs');
 var glob = require('glob');
 var path = require('path');
-var wpi18n = require('../');
+var wpvuei18n = require('../');
 var WPPackage = require('../lib/package');
 
 var argv = require('minimist')(process.argv.slice(2), {
@@ -38,7 +38,7 @@ if (argv.help) {
 
 if (argv.version) {
   var pkg = require('../package.json');
-  console.log('node-wp-i18n v' + pkg.version);
+  console.log('wp-vue-i18n v' + pkg.version);
   process.exit(0);
 }
 
@@ -46,7 +46,7 @@ if (-1 !== argv._.indexOf('addtextdomain')) {
   var pattern = argv['glob-pattern'] ? argv['glob-pattern'] : '**/*.php';
   var files = glob.sync(pattern);
 
-  wpi18n.addtextdomain(files, {
+  wpvuei18n.addtextdomain(files, {
     dryRun: argv['dry-run'],
     textdomain: argv.textdomain || '',
     updateDomains: [ 'all' ]
@@ -72,14 +72,14 @@ if (-1 !== argv._.indexOf('makepot')) {
   var pkg = require('../package.json');
 
   var headers = {
-    'x-generator': 'node-wp-i18n ' + pkg.version
+    'x-generator': 'wp-vue-i18n ' + pkg.version
   };
 
   if (argv.poedit) {
     headers.poedit = true;
   }
 
-  wpi18n.makepot({
+  wpvuei18n.makepot({
     domainPath: argv['domain-path'] ? argv['domain-path'] : '',
     exclude: argv['exclude'] ? argv['exclude'].split(',') : [],
     mainFile: argv['main-file'] ? argv['main-file'] : '',
