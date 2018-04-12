@@ -30,7 +30,7 @@ class StringExtractor {
 			if ( '.' == $file_name || '..' == $file_name ) {
 				continue;
 			}
-			if ( preg_match( '/\.php$/', $file_name ) && $this->does_file_name_match( $prefix . $file_name, $excludes, $includes ) ) {
+			if ( preg_match( '/\.php|vue|js$/', $file_name ) && $this->does_file_name_match( $prefix . $file_name, $excludes, $includes ) ) {
 				$extracted = $this->extract_from_file( $file_name, $prefix );
 				$translations->merge_originals_with( $extracted );
 			}
@@ -45,6 +45,11 @@ class StringExtractor {
 
 	public function extract_from_file( $file_name, $prefix ) {
 		$code = file_get_contents( $file_name );
+
+		if ( ! preg_match( '/\.php$/', $file_name )) {
+			$code = '<?php ' . $code;
+		}
+
 		return $this->extract_from_code( $code, $prefix . $file_name );
 	}
 
