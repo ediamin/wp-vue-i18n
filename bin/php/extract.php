@@ -17,6 +17,8 @@ class StringExtractor {
 
 	public $comment_prefix = 'translators:';
 
+	private $i18n_function_calls = [];
+
 	public function __construct( $rules = array() ) {
 		$this->rules = $rules;
 	}
@@ -46,11 +48,15 @@ class StringExtractor {
 	public function extract_from_file( $file_name, $prefix ) {
 		$code = file_get_contents( $file_name );
 
+		$is_php_file = true;
+
 		if ( ! preg_match( '/\.php$/', $file_name )) {
 			$code = '<?php ' . $code;
+
+			$is_php_file = false;
 		}
 
-		return $this->extract_from_code( $code, $prefix . $file_name );
+		return $this->extract_from_code( $code, $prefix . $file_name, $is_php_file );
 	}
 
 	public function does_file_name_match( $path, $excludes, $includes ) {
@@ -156,7 +162,7 @@ class StringExtractor {
 		return $entry;
 	}
 
-	public function extract_from_code( $code, $file_name ) {
+	public function extract_from_code( $code, $file_name, $is_php_file ) {
 		$translations = new Translations;
 		$function_calls = $this->find_function_calls( array_keys( $this->rules ), $code );
 		foreach( $function_calls as $call ) {
@@ -167,6 +173,18 @@ class StringExtractor {
 				}
 			} elseif ( $entry ) {
 				$translations->add_entry_or_merge( $entry );
+			}
+
+			if ( ! $is_php_file && isset( $this->rules[ $call[name] ] ) && ( $call['name'] !== '_c' ) && ! empty( $call['args'][0] ) ) {
+				$params = [];
+
+				foreach ( $call['args'] as $str ) {
+					$params[] = str_replace("'", "\'", $str);
+				}
+
+				$params = "'" . implode( "', '", $params ) . "'";
+
+				$this->i18n_function_calls[] = $call['name'] . '( ' . $params . ' ),';
 			}
 		}
 		return $translations;
@@ -256,5 +274,12 @@ class StringExtractor {
 			$current_argument = null;
 		}
 		return $function_calls;
+	}
+
+	/**
+	 * Get i18n_function_calls
+	 */
+	public function get_i18n_function_calls() {
+		return $this->i18n_function_calls;
 	}
 }

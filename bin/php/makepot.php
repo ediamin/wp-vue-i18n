@@ -675,6 +675,10 @@ class MakePOT {
 	public function is_not_ms_file( $file_name ) {
 		return ! $this->is_ms_file( $file_name );
 	}
+
+	public function get_i18n_function_calls() {
+		return $this->extractor->get_i18n_function_calls();
+	}
 }
 
 // Run the CLI only if the file wasn't included.
