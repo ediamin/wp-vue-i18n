@@ -57,6 +57,28 @@ class NodeMakePOT extends MakePOT {
 
 		$potextmeta = new PotExtMeta;
 		$result = $potextmeta->append( $main_file, $output );
+
+		// Write js translation strings into a php file for WordPress.org
+		$output_php = preg_replace('/\.pot$/', '.php', $output);
+		$i18n_function_calls = $this->get_i18n_function_calls();
+
+		$fileHandler = fopen($output_php, "w");
+
+		if ( $fileHandler && ! empty( $i18n_function_calls ) ) {
+			fwrite($fileHandler, "<?php\n");
+			fwrite($fileHandler, "return [\n");
+
+			foreach ( $i18n_function_calls as $i18n_function_call) {
+				fwrite($fileHandler, "\t");
+				fwrite($fileHandler, $i18n_function_call);
+				fwrite($fileHandler, "\n");
+			}
+
+			fwrite($fileHandler, "];");
+
+			fclose($fileHandler);
+		}
+
 		return $result;
 	}
 
