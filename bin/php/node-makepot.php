@@ -50,6 +50,13 @@ class NodeMakePOT extends MakePOT {
 			$this->meta['wp-plugin']['comments'] = "Copyright (C) {year} {author}\nThis file is distributed under the same license as the {package-name} package.";
 		}
 
+		// Write js translation strings into a php file for WordPress.org
+		$output_php = preg_replace('/\.pot$/', '.php', $output);
+
+		if ( file_exists( $output_php ) ) {
+			unlink( $output_php );
+		}
+
 		$result = $this->xgettext( 'wp-plugin', $dir, $output, $placeholders, $excludes, $includes );
 		if ( ! $result ) {
 			return false;
@@ -58,8 +65,6 @@ class NodeMakePOT extends MakePOT {
 		$potextmeta = new PotExtMeta;
 		$result = $potextmeta->append( $main_file, $output );
 
-		// Write js translation strings into a php file for WordPress.org
-		$output_php = preg_replace('/\.pot$/', '.php', $output);
 		$i18n_function_calls = $this->get_i18n_function_calls();
 
 		$fileHandler = fopen($output_php, "w");
