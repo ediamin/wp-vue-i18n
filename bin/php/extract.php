@@ -184,7 +184,11 @@ class StringExtractor {
 
 				$params = "'" . implode( "', '", $params ) . "'";
 
-				$this->i18n_function_calls[] = $call['name'] . '( ' . $params . ' ),';
+				$function_call = $call['name'] . '( ' . $params . ' ),';
+
+				if ( ! in_array( $function_call, $this->i18n_function_calls ) ) {
+					$this->i18n_function_calls[] = $function_call;
+				}
 			}
 		}
 		return $translations;
