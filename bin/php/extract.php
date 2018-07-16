@@ -175,7 +175,7 @@ class StringExtractor {
 				$translations->add_entry_or_merge( $entry );
 			}
 
-			if ( ! $is_php_file && isset( $this->rules[ $call[name] ] ) && ( $call['name'] !== '_c' ) && ! empty( $call['args'][0] ) ) {
+			if ( ! $is_php_file && isset( $this->rules[ $call['name'] ] ) && ( $call['name'] !== '_c' ) && ! empty( $call['args'][0] ) ) {
 				$params = [];
 
 				foreach ( $call['args'] as $str ) {
