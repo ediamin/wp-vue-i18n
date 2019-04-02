@@ -51,7 +51,7 @@ class StringExtractor {
 		$is_php_file = true;
 
 		if ( ! preg_match( '/\.php$/', $file_name )) {
-			$code = '<?php ' . $code;
+			$code = '<?php ' . preg_replace( '/["|\'](.*\(.*\))["|\']/', '$1', $code );
 
 			$is_php_file = false;
 		}
