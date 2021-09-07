@@ -73,9 +73,9 @@ class NodeMakePOT extends MakePOT {
 			fwrite($fileHandler, "<?php\n");
 			fwrite($fileHandler, "return [\n");
 
-			foreach ( $i18n_function_calls as $i18n_function_call) {
+			foreach ( $i18n_function_calls as $key => $i18n_function_call) {
 				fwrite($fileHandler, "\t");
-				fwrite($fileHandler, $i18n_function_call);
+				fwrite($fileHandler, "'$key'" . ' => ' . $i18n_function_call);
 				fwrite($fileHandler, "\n");
 			}
 
